@@ -23,15 +23,17 @@ class Kennitala:
 
     _age_prefix = {'8': '18', '9': '19', '0': '20'}
     _age_postfix = {v: k for k, v in _age_prefix.items()}
+    _multipliers = (3, 2, 7, 6, 5, 4, 3, 2)
+    _pattern = re.compile(r'\d{6}\-?\d{4}')
+
 
     @staticmethod
     def _compute_checkdigit(kennitala):
         """Computes checkdigit for (not necessarily complete) kennitala.
         Raises ValueError if random portion of kennitala is invalid.
         """
-        multipliers = (3, 2, 7, 6, 5, 4, 3, 2)
         summed = 0
-        for idx, multiplier in enumerate(multipliers):
+        for idx, multiplier in enumerate(Kennitala._multipliers):
             digit = int(kennitala[idx])
             summed += multiplier * digit
 
@@ -127,8 +129,7 @@ class Kennitala:
         if not self.kennitala:
             return False
 
-        pattern = r'\d{6}\-?\d{4}'
-        if not re.match(pattern, self.kennitala):
+        if not self._pattern.match(self.kennitala):
             return False
 
         kennitala = self.kennitala.replace('-', '')
