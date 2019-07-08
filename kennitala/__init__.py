@@ -58,6 +58,9 @@ class Kennitala:
         if 41 <= day <= 71:
             day = day - 40
 
+        if year == 1969 and month == 2 and day > 28:
+            day = 28
+
         return year, month, day
 
     @staticmethod
